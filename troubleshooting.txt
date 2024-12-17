@@ -1,0 +1,108 @@
+from docx import Document
+
+# Create a new Word document
+doc = Document()
+
+# Title
+doc.add_heading("AWS IoT Setup and Troubleshooting on Raspberry Pi", level=1)
+
+# Introduction
+doc.add_paragraph(
+    "This document details the step-by-step process and troubleshooting "
+    "undertaken to install and configure the AWS IoT SDK on a Raspberry Pi. "
+    "It includes setting up the Python environment, installing necessary dependencies, "
+    "resolving errors, and the final Python script to connect to AWS IoT."
+)
+
+# Step 1: Initial Setup
+doc.add_heading("1. Initial Setup", level=2)
+doc.add_paragraph(
+    "1. Ensure Python is installed:\n"
+    "   Run the following command to check:\n"
+    "   ```\n"
+    "   python3 --version\n"
+    "   ```\n"
+    "   If not installed, install Python and the `venv` module:\n"
+    "   ```\n"
+    "   sudo apt update\n"
+    "   sudo apt install python3 python3-venv -y\n"
+    "   ```"
+)
+doc.add_paragraph(
+    "2. Create a Python Virtual Environment:\n"
+    "   Navigate to the project directory and run:\n"
+    "   ```\n"
+    "   cd /home/jubernar/certs\n"
+    "   python3 -m venv venv\n"
+    "   source venv/bin/activate\n"
+    "   ```"
+)
+doc.add_paragraph(
+    "3. Update `pip`:\n"
+    "   ```\n"
+    "   python -m pip install --upgrade pip\n"
+    "   ```"
+)
+
+# Step 2: Installing Dependencies
+doc.add_heading("2. Installing Dependencies", level=2)
+doc.add_paragraph(
+    "Install the AWS IoT Python SDK:\n"
+    "```bash\n"
+    "pip install AWSIoTPythonSDK\n"
+    "```\n"
+    "If you encounter an 'externally-managed-environment' error, ensure you are inside the virtual environment."
+)
+
+# Step 3: Resolving Errors
+doc.add_heading("3. Resolving Common Errors", level=2)
+doc.add_paragraph(
+    "a. Missing Certificate Files:\n"
+    "   Ensure all certificates are in the correct directory:\n"
+    "   ```\n"
+    "   /home/jubernar/certs/AmazonRootCA1.pem\n"
+    "   /home/jubernar/certs/project_goidi.cert.pem\n"
+    "   /home/jubernar/certs/project_goidi.private.key\n"
+    "   ```"
+)
+doc.add_paragraph(
+    "b. Connection Timeout:\n"
+    "   If you encounter connection timeout errors, extend the timeout duration in the script."
+)
+
+# Step 4: Final Python Script
+doc.add_heading("4. Final Python Script", level=2)
+doc.add_paragraph(
+    "Below is the final Python script used to connect to AWS IoT:\n"
+)
+doc.add_paragraph(
+    "```python\n"
+    "from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient\n"
+    "\n"
+    "# Paths to your certificates and keys\n"
+    "certPath = '/home/jubernar/certs/project_goidi.cert.pem'\n"
+    "keyPath = '/home/jubernar/certs/project_goidi.private.key'\n"
+    "rootCAPath = '/home/jubernar/certs/AmazonRootCA1.pem'\n"
+    "\n"
+    "# Create an MQTT client\n"
+    "client = AWSIoTMQTTClient('iotconsole-52a104dd-47d4-4ce4-a818-498cb9ff759f')\n"
+    "client.configureEndpoint('a13txo61fras5y-ats.iot.us-east-1.amazonaws.com', 8883)\n"
+    "client.configureCredentials(rootCAPath, keyPath, certPath)\n"
+    "\n"
+    "# Connect to AWS IoT\n"
+    "print('Connecting to AWS IoT...')\n"
+    "client.connect()\n"
+    "print('Connected successfully!')\n"
+    "\n"
+    "# Publish a message to a topic\n"
+    "topic = 'weatherBallon'\n"
+    "message = '{\"message\": \"This is Coming from the Raspberry Pi 4 Biash\"}'\n"
+    "client.publish(topic, message, 1)\n"
+    "print(f'Message published to topic {topic}: {message}')\n"
+    "```"
+)
+
+# Save the document
+file_path = "/mnt/data/AWS_IoT_Setup_and_Troubleshooting.docx"
+doc.save(file_path)
+file_path
