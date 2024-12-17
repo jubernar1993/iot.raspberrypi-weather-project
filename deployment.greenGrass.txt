@@ -1,0 +1,21 @@
+Here are the detailed steps to set up AWS Greengrass to deploy a Docker container to your Raspberry Pi and provide it with certificates and keys from Secrets Manager: 
+
+    1. Set Up Your DevOps Pipeline:
+    •    Configure your CI/CD pipeline to build Docker images from your application code.
+    •    Push the built Docker images to Amazon Elastic Container Registry (ECR).
+    2.    Configure AWS Greengrass:
+    •    Install and set up AWS Greengrass on your Raspberry Pi.
+    •    Create a Greengrass group and configure it to pull the Docker image from ECR and run it on the Raspberry Pi.
+    3.    Store Certificates and Keys in AWS Secrets Manager:
+    •    Store your certificates and keys required by your application in AWS Secrets Manager.
+    4.    Configure Greengrass to Access Secrets Manager:
+    •    Create an IAM role with permissions to access the secrets in Secrets Manager.
+    •    Attach this role to your Greengrass group to allow it to fetch secrets.
+    5.    Deploy Certificates to the Docker Container:
+    •    Configure your Greengrass deployment to mount or copy the certificates and keys from Secrets Manager to a directory accessible by the Docker container.
+    •    Adjust the container’s configuration to read the certificates and keys from this directory.
+    6.    Run and Test:
+    •    Deploy the Greengrass group with your configured Docker container to the Raspberry Pi.
+    •    Verify that the container can access the certificates and keys and communicate securely with AWS IoT and S3.
+
+This setup will ensure that your Docker container on the Raspberry Pi can securely use the necessary credentials from Secrets Manager.
