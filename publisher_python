@@ -1,0 +1,31 @@
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+
+# Paths to your certificates and keys
+certPath = "/home/jubernar/certs/project_goidi.cert.pem"  # Replace with the actual certificate file name
+keyPath = "/home/jubernar/certs/project_goidi.private.key"       # Replace with the actual private key file name
+rootCAPath = "/home/jubernar/certs/AmazonRootCA1.pem"  # Replace with the actual root CA file name
+
+# Create an MQTT client
+client = AWSIoTMQTTClient("iotconsole-52a104dd-47d4-4ce4-a818-498cb9ff759f")
+client.configureEndpoint("a13txo61fras5y-ats.iot.us-east-1.amazonaws.com", 8883)
+client.configureCredentials(rootCAPath, keyPath, certPath)
+
+# Access Paho MQTT client and set connection timeout
+mqtt_client = client._mqtt_core._paho_client
+mqtt_client.connect_timeout = 60  # Set timeout to 60 seconds
+
+# Connect to AWS IoT
+client.connect(keepAliveIntervalSecond=60)
+
+
+# Connect to AWS IoT
+print("Connecting to AWS IoT...")
+client.connect()
+print("Connected successfully!")
+
+# Publish a message to a topic
+topic = "weatherBallon"
+message = '{"message": "This is Coming from the Raspberry Pi 4 Biash"}'  # JSON message
+client.publish(topic, message, 1)
+
+print(f"Message published to topic '{topic}': {message}")
