@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
 
 # Install the AWS IoT SDK
 RUN pip install AWSIoTPythonSDK
@@ -21,7 +21,6 @@ RUN pip install AWSIoTPythonSDK
 # Command to create the Python virtual environment and activate it
 RUN python3 -m venv venv
 RUN . /app/venv/bin/activate
-
 # Expose necessary ports, if any
 EXPOSE 8080
 
