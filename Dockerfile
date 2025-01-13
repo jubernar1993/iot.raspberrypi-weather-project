@@ -25,4 +25,4 @@ RUN . /app/venv/bin/activate
 EXPOSE 8080
 
 # Set the default command for the container (e.g., run your Python script)
-CMD ["/app/venv/bin/python", "publish_message.py"]
+#CMD ["/app/venv/bin/python", "publish_message.py"]
